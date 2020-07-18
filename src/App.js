@@ -1,43 +1,39 @@
 import React, { Component } from 'react';
-import Child from './nesting';
-import AddNinja from './AddNinja'
-import logo from './logo.svg';
-import './App.css';
+import Todos from './Todos'
+import AddTodo from './AddTodo'
 
 class App extends Component {
   state = {
-    nest: [
-      {name: "Nix", age: 20, belt: "Blue", id: 1},
-      {name: "Niraj", age: 21, belt: "Green", id: 2},
-      {name: "Nicks", age: 22, belt: "Yellow", id: 3}
+    todos: [
+      {id: 1, content: "Buy some ....."},
+      {id: 2, content: "Play some games"}
     ]
   }
-  addNinja = (par) => {
-    par.id = Math.random();
-    let nest = [...this.state.nest, par]
-    this.setState({
-      nest: nest
-    })
-  }
-  delNinja = (id) => {
-    let nest = this.state.nest.filter(par => {
-      return par.id !== id 
+  deleteTodo = (id) => {
+    const todos = this.state.todos.filter(todo => {
+      return todo.id !== id
     });
     this.setState({
-      nest: nest
+      todos
+    })
+  }
+
+  addTodo = (todo) => {
+    todo.id = Math.random()
+    let todos = [...this.state.todos, todo]
+    this.setState({
+      todos
     })
   }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>Hello there...</p>
-            <Child delNinja={this.delNinja} nest= { this.state.nest } />
-            <AddNinja addNinja={this.addNinja} />
-        </header>
+      <div className="todo-app container">
+        <h1 className="center blue-text"> Todo's</h1>
+        <Todos todos={this.state.todos} deleteTodo={this.deleteTodo} />
+        <AddTodo addTodo={this.addTodo} />
       </div>
-    );
+    )
   }
 }
-export default App;
+
+export default App
